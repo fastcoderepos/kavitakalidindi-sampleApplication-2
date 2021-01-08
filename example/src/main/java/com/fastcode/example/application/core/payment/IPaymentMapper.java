@@ -53,10 +53,10 @@ public interface IPaymentMapper {
     FindPaymentByIdOutput paymentEntityToFindPaymentByIdOutput(PaymentEntity entity);
 
     @Mappings({ @Mapping(source = "foundPayment.paymentId", target = "paymentPaymentId") })
-    GetCustomerOutput customerEntityToGetCustomerOutput(CustomerEntity customer, PaymentEntity foundPayment);
+    GetStaffOutput staffEntityToGetStaffOutput(StaffEntity staff, PaymentEntity foundPayment);
 
     @Mappings({ @Mapping(source = "foundPayment.paymentId", target = "paymentPaymentId") })
-    GetStaffOutput staffEntityToGetStaffOutput(StaffEntity staff, PaymentEntity foundPayment);
+    GetCustomerOutput customerEntityToGetCustomerOutput(CustomerEntity customer, PaymentEntity foundPayment);
 
     @Mappings({ @Mapping(source = "foundPayment.paymentId", target = "paymentPaymentId") })
     GetRentalOutput rentalEntityToGetRentalOutput(RentalEntity rental, PaymentEntity foundPayment);

@@ -86,12 +86,12 @@ public class InventoryControllerTest {
     protected IRentalRepository rentalRepository;
 
     @Autowired
-    @Qualifier("languageRepository")
-    protected ILanguageRepository languageRepository;
-
-    @Autowired
     @Qualifier("addressRepository")
     protected IAddressRepository addressRepository;
+
+    @Autowired
+    @Qualifier("languageRepository")
+    protected ILanguageRepository languageRepository;
 
     @Autowired
     @Qualifier("customerRepository")
@@ -147,9 +147,9 @@ public class InventoryControllerTest {
 
     int countRental = 10;
 
-    int countLanguage = 10;
-
     int countAddress = 10;
+
+    int countLanguage = 10;
 
     int countFilm = 10;
 
@@ -176,8 +176,8 @@ public class InventoryControllerTest {
         em.createNativeQuery("truncate table INVENTORY").executeUpdate();
         em.createNativeQuery("truncate table FILM").executeUpdate();
         em.createNativeQuery("truncate table RENTAL").executeUpdate();
-        em.createNativeQuery("truncate table LANGUAGE").executeUpdate();
         em.createNativeQuery("truncate table ADDRESS").executeUpdate();
+        em.createNativeQuery("truncate table LANGUAGE").executeUpdate();
         em.createNativeQuery("truncate table CUSTOMER").executeUpdate();
         em.createNativeQuery("truncate table STAFF").executeUpdate();
         em.createNativeQuery("truncate table COUNTRY").executeUpdate();
@@ -199,10 +199,10 @@ public class InventoryControllerTest {
         rentalEntity.setReturnDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
         rentalEntity.setVersiono(0L);
         relationCount++;
-        InventoryEntity inventory = createInventoryEntity();
-        rentalEntity.setInventory(inventory);
         CustomerEntity customer = createCustomerEntity();
         rentalEntity.setCustomer(customer);
+        InventoryEntity inventory = createInventoryEntity();
+        rentalEntity.setInventory(inventory);
         StaffEntity staff = createStaffEntity();
         rentalEntity.setStaff(staff);
         if (!rentalRepository.findAll().contains(rentalEntity)) {
@@ -210,24 +210,6 @@ public class InventoryControllerTest {
         }
         countRental++;
         return rentalEntity;
-    }
-
-    public LanguageEntity createLanguageEntity() {
-        if (countLanguage > 60) {
-            countLanguage = 10;
-        }
-
-        LanguageEntity languageEntity = new LanguageEntity();
-        languageEntity.setLanguageId(relationCount);
-        languageEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countLanguage + "-09-01 05:25:22"));
-        languageEntity.setName(String.valueOf(relationCount));
-        languageEntity.setVersiono(0L);
-        relationCount++;
-        if (!languageRepository.findAll().contains(languageEntity)) {
-            languageEntity = languageRepository.save(languageEntity);
-        }
-        countLanguage++;
-        return languageEntity;
     }
 
     public AddressEntity createAddressEntity() {
@@ -252,6 +234,24 @@ public class InventoryControllerTest {
         }
         countAddress++;
         return addressEntity;
+    }
+
+    public LanguageEntity createLanguageEntity() {
+        if (countLanguage > 60) {
+            countLanguage = 10;
+        }
+
+        LanguageEntity languageEntity = new LanguageEntity();
+        languageEntity.setLanguageId(relationCount);
+        languageEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countLanguage + "-09-01 05:25:22"));
+        languageEntity.setName(String.valueOf(relationCount));
+        languageEntity.setVersiono(0L);
+        relationCount++;
+        if (!languageRepository.findAll().contains(languageEntity)) {
+            languageEntity = languageRepository.save(languageEntity);
+        }
+        countLanguage++;
+        return languageEntity;
     }
 
     public FilmEntity createFilmEntity() {

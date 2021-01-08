@@ -194,10 +194,10 @@ public class LanguageControllerTest {
         rentalEntity.setReturnDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
         rentalEntity.setVersiono(0L);
         relationCount++;
-        InventoryEntity inventory = createInventoryEntity();
-        rentalEntity.setInventory(inventory);
         CustomerEntity customer = createCustomerEntity();
         rentalEntity.setCustomer(customer);
+        InventoryEntity inventory = createInventoryEntity();
+        rentalEntity.setInventory(inventory);
         StaffEntity staff = createStaffEntity();
         rentalEntity.setStaff(staff);
         if (!rentalRepository.findAll().contains(rentalEntity)) {

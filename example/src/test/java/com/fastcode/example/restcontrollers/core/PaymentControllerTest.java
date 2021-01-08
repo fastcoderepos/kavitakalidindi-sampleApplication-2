@@ -150,9 +150,9 @@ public class PaymentControllerTest {
 
     static int relationCount = 10;
 
-    int countAddress = 10;
-
     int countRental = 10;
+
+    int countAddress = 10;
 
     int countLanguage = 10;
 
@@ -192,6 +192,31 @@ public class PaymentControllerTest {
         em.getTransaction().commit();
     }
 
+    public RentalEntity createRentalEntity() {
+        if (countRental > 60) {
+            countRental = 10;
+        }
+
+        RentalEntity rentalEntity = new RentalEntity();
+        rentalEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
+        rentalEntity.setRentalDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
+        rentalEntity.setRentalId(relationCount);
+        rentalEntity.setReturnDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
+        rentalEntity.setVersiono(0L);
+        relationCount++;
+        CustomerEntity customer = createCustomerEntity();
+        rentalEntity.setCustomer(customer);
+        InventoryEntity inventory = createInventoryEntity();
+        rentalEntity.setInventory(inventory);
+        StaffEntity staff = createStaffEntity();
+        rentalEntity.setStaff(staff);
+        if (!rentalRepository.findAll().contains(rentalEntity)) {
+            rentalEntity = rentalRepository.save(rentalEntity);
+        }
+        countRental++;
+        return rentalEntity;
+    }
+
     public AddressEntity createAddressEntity() {
         if (countAddress > 60) {
             countAddress = 10;
@@ -214,31 +239,6 @@ public class PaymentControllerTest {
         }
         countAddress++;
         return addressEntity;
-    }
-
-    public RentalEntity createRentalEntity() {
-        if (countRental > 60) {
-            countRental = 10;
-        }
-
-        RentalEntity rentalEntity = new RentalEntity();
-        rentalEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
-        rentalEntity.setRentalDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
-        rentalEntity.setRentalId(relationCount);
-        rentalEntity.setReturnDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
-        rentalEntity.setVersiono(0L);
-        relationCount++;
-        InventoryEntity inventory = createInventoryEntity();
-        rentalEntity.setInventory(inventory);
-        CustomerEntity customer = createCustomerEntity();
-        rentalEntity.setCustomer(customer);
-        StaffEntity staff = createStaffEntity();
-        rentalEntity.setStaff(staff);
-        if (!rentalRepository.findAll().contains(rentalEntity)) {
-            rentalEntity = rentalRepository.save(rentalEntity);
-        }
-        countRental++;
-        return rentalEntity;
     }
 
     public LanguageEntity createLanguageEntity() {

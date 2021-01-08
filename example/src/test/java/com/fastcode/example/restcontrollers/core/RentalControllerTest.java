@@ -92,12 +92,12 @@ public class RentalControllerTest {
     protected IStaffRepository staffRepository;
 
     @Autowired
-    @Qualifier("rentalRepository")
-    protected IRentalRepository rentalRepository;
-
-    @Autowired
     @Qualifier("addressRepository")
     protected IAddressRepository addressRepository;
+
+    @Autowired
+    @Qualifier("rentalRepository")
+    protected IRentalRepository rentalRepository;
 
     @Autowired
     @Qualifier("languageRepository")
@@ -155,9 +155,9 @@ public class RentalControllerTest {
 
     static int relationCount = 10;
 
-    int countRental = 10;
-
     int countAddress = 10;
+
+    int countRental = 10;
 
     int countLanguage = 10;
 
@@ -187,39 +187,14 @@ public class RentalControllerTest {
         em.createNativeQuery("truncate table CUSTOMER").executeUpdate();
         em.createNativeQuery("truncate table INVENTORY").executeUpdate();
         em.createNativeQuery("truncate table STAFF").executeUpdate();
-        em.createNativeQuery("truncate table RENTAL").executeUpdate();
         em.createNativeQuery("truncate table ADDRESS").executeUpdate();
+        em.createNativeQuery("truncate table RENTAL").executeUpdate();
         em.createNativeQuery("truncate table LANGUAGE").executeUpdate();
         em.createNativeQuery("truncate table FILM").executeUpdate();
         em.createNativeQuery("truncate table COUNTRY").executeUpdate();
         em.createNativeQuery("truncate table CITY").executeUpdate();
         em.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
         em.getTransaction().commit();
-    }
-
-    public RentalEntity createRentalEntity() {
-        if (countRental > 60) {
-            countRental = 10;
-        }
-
-        RentalEntity rentalEntity = new RentalEntity();
-        rentalEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
-        rentalEntity.setRentalDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
-        rentalEntity.setRentalId(relationCount);
-        rentalEntity.setReturnDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
-        rentalEntity.setVersiono(0L);
-        relationCount++;
-        InventoryEntity inventory = createInventoryEntity();
-        rentalEntity.setInventory(inventory);
-        CustomerEntity customer = createCustomerEntity();
-        rentalEntity.setCustomer(customer);
-        StaffEntity staff = createStaffEntity();
-        rentalEntity.setStaff(staff);
-        if (!rentalRepository.findAll().contains(rentalEntity)) {
-            rentalEntity = rentalRepository.save(rentalEntity);
-        }
-        countRental++;
-        return rentalEntity;
     }
 
     public AddressEntity createAddressEntity() {
@@ -244,6 +219,31 @@ public class RentalControllerTest {
         }
         countAddress++;
         return addressEntity;
+    }
+
+    public RentalEntity createRentalEntity() {
+        if (countRental > 60) {
+            countRental = 10;
+        }
+
+        RentalEntity rentalEntity = new RentalEntity();
+        rentalEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
+        rentalEntity.setRentalDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
+        rentalEntity.setRentalId(relationCount);
+        rentalEntity.setReturnDate(SearchUtils.stringToLocalDateTime("19" + countRental + "-09-01 05:25:22"));
+        rentalEntity.setVersiono(0L);
+        relationCount++;
+        CustomerEntity customer = createCustomerEntity();
+        rentalEntity.setCustomer(customer);
+        InventoryEntity inventory = createInventoryEntity();
+        rentalEntity.setInventory(inventory);
+        StaffEntity staff = createStaffEntity();
+        rentalEntity.setStaff(staff);
+        if (!rentalRepository.findAll().contains(rentalEntity)) {
+            rentalEntity = rentalRepository.save(rentalEntity);
+        }
+        countRental++;
+        return rentalEntity;
     }
 
     public LanguageEntity createLanguageEntity() {

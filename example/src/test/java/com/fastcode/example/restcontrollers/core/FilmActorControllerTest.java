@@ -162,9 +162,9 @@ public class FilmActorControllerTest {
 
     int countCustomer = 10;
 
-    int countStaff = 10;
-
     int countActor = 10;
+
+    int countStaff = 10;
 
     int countCountry = 10;
 
@@ -211,10 +211,10 @@ public class FilmActorControllerTest {
         relationCount++;
         InventoryEntity inventory = createInventoryEntity();
         rentalEntity.setInventory(inventory);
-        StaffEntity staff = createStaffEntity();
-        rentalEntity.setStaff(staff);
         CustomerEntity customer = createCustomerEntity();
         rentalEntity.setCustomer(customer);
+        StaffEntity staff = createStaffEntity();
+        rentalEntity.setStaff(staff);
         if (!rentalRepository.findAll().contains(rentalEntity)) {
             rentalEntity = rentalRepository.save(rentalEntity);
         }
@@ -317,6 +317,25 @@ public class FilmActorControllerTest {
         return customerEntity;
     }
 
+    public ActorEntity createActorEntity() {
+        if (countActor > 60) {
+            countActor = 10;
+        }
+
+        ActorEntity actorEntity = new ActorEntity();
+        actorEntity.setActorId(relationCount);
+        actorEntity.setFirstName(String.valueOf(relationCount));
+        actorEntity.setLastName(String.valueOf(relationCount));
+        actorEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countActor + "-09-01 05:25:22"));
+        actorEntity.setVersiono(0L);
+        relationCount++;
+        if (!actorRepository.findAll().contains(actorEntity)) {
+            actorEntity = actorRepository.save(actorEntity);
+        }
+        countActor++;
+        return actorEntity;
+    }
+
     public StaffEntity createStaffEntity() {
         if (countStaff > 60) {
             countStaff = 10;
@@ -341,25 +360,6 @@ public class FilmActorControllerTest {
         }
         countStaff++;
         return staffEntity;
-    }
-
-    public ActorEntity createActorEntity() {
-        if (countActor > 60) {
-            countActor = 10;
-        }
-
-        ActorEntity actorEntity = new ActorEntity();
-        actorEntity.setActorId(relationCount);
-        actorEntity.setFirstName(String.valueOf(relationCount));
-        actorEntity.setLastName(String.valueOf(relationCount));
-        actorEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countActor + "-09-01 05:25:22"));
-        actorEntity.setVersiono(0L);
-        relationCount++;
-        if (!actorRepository.findAll().contains(actorEntity)) {
-            actorEntity = actorRepository.save(actorEntity);
-        }
-        countActor++;
-        return actorEntity;
     }
 
     public CountryEntity createCountryEntity() {

@@ -92,16 +92,16 @@ public class RentalControllerTest {
     protected IStaffRepository staffRepository;
 
     @Autowired
-    @Qualifier("languageRepository")
-    protected ILanguageRepository languageRepository;
-
-    @Autowired
     @Qualifier("rentalRepository")
     protected IRentalRepository rentalRepository;
 
     @Autowired
     @Qualifier("addressRepository")
     protected IAddressRepository addressRepository;
+
+    @Autowired
+    @Qualifier("languageRepository")
+    protected ILanguageRepository languageRepository;
 
     @Autowired
     @Qualifier("filmRepository")
@@ -155,15 +155,15 @@ public class RentalControllerTest {
 
     static int relationCount = 10;
 
-    int countLanguage = 10;
-
     int countRental = 10;
 
     int countAddress = 10;
 
-    int countFilm = 10;
+    int countLanguage = 10;
 
     int countCustomer = 10;
+
+    int countFilm = 10;
 
     int countStaff = 10;
 
@@ -187,32 +187,14 @@ public class RentalControllerTest {
         em.createNativeQuery("truncate table CUSTOMER").executeUpdate();
         em.createNativeQuery("truncate table INVENTORY").executeUpdate();
         em.createNativeQuery("truncate table STAFF").executeUpdate();
-        em.createNativeQuery("truncate table LANGUAGE").executeUpdate();
         em.createNativeQuery("truncate table RENTAL").executeUpdate();
         em.createNativeQuery("truncate table ADDRESS").executeUpdate();
+        em.createNativeQuery("truncate table LANGUAGE").executeUpdate();
         em.createNativeQuery("truncate table FILM").executeUpdate();
         em.createNativeQuery("truncate table COUNTRY").executeUpdate();
         em.createNativeQuery("truncate table CITY").executeUpdate();
         em.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
         em.getTransaction().commit();
-    }
-
-    public LanguageEntity createLanguageEntity() {
-        if (countLanguage > 60) {
-            countLanguage = 10;
-        }
-
-        LanguageEntity languageEntity = new LanguageEntity();
-        languageEntity.setLanguageId(relationCount);
-        languageEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countLanguage + "-09-01 05:25:22"));
-        languageEntity.setName(String.valueOf(relationCount));
-        languageEntity.setVersiono(0L);
-        relationCount++;
-        if (!languageRepository.findAll().contains(languageEntity)) {
-            languageEntity = languageRepository.save(languageEntity);
-        }
-        countLanguage++;
-        return languageEntity;
     }
 
     public RentalEntity createRentalEntity() {
@@ -229,10 +211,10 @@ public class RentalControllerTest {
         relationCount++;
         InventoryEntity inventory = createInventoryEntity();
         rentalEntity.setInventory(inventory);
-        StaffEntity staff = createStaffEntity();
-        rentalEntity.setStaff(staff);
         CustomerEntity customer = createCustomerEntity();
         rentalEntity.setCustomer(customer);
+        StaffEntity staff = createStaffEntity();
+        rentalEntity.setStaff(staff);
         if (!rentalRepository.findAll().contains(rentalEntity)) {
             rentalEntity = rentalRepository.save(rentalEntity);
         }
@@ -264,31 +246,22 @@ public class RentalControllerTest {
         return addressEntity;
     }
 
-    public FilmEntity createFilmEntity() {
-        if (countFilm > 60) {
-            countFilm = 10;
+    public LanguageEntity createLanguageEntity() {
+        if (countLanguage > 60) {
+            countLanguage = 10;
         }
 
-        FilmEntity filmEntity = new FilmEntity();
-        filmEntity.setDescription(String.valueOf(relationCount));
-        filmEntity.setFilmId(relationCount);
-        filmEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countFilm + "-09-01 05:25:22"));
-        filmEntity.setLength((short) relationCount);
-        filmEntity.setRating(String.valueOf(relationCount));
-        filmEntity.setReleaseYear(relationCount);
-        filmEntity.setRentalDuration((short) relationCount);
-        filmEntity.setRentalRate(BigDecimal.valueOf(relationCount));
-        filmEntity.setReplacementCost(BigDecimal.valueOf(relationCount));
-        filmEntity.setTitle(String.valueOf(relationCount));
-        filmEntity.setVersiono(0L);
+        LanguageEntity languageEntity = new LanguageEntity();
+        languageEntity.setLanguageId(relationCount);
+        languageEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countLanguage + "-09-01 05:25:22"));
+        languageEntity.setName(String.valueOf(relationCount));
+        languageEntity.setVersiono(0L);
         relationCount++;
-        LanguageEntity language = createLanguageEntity();
-        filmEntity.setLanguage(language);
-        if (!filmRepository.findAll().contains(filmEntity)) {
-            filmEntity = filmRepository.save(filmEntity);
+        if (!languageRepository.findAll().contains(languageEntity)) {
+            languageEntity = languageRepository.save(languageEntity);
         }
-        countFilm++;
-        return filmEntity;
+        countLanguage++;
+        return languageEntity;
     }
 
     public CustomerEntity createCustomerEntity() {
@@ -315,6 +288,33 @@ public class RentalControllerTest {
         }
         countCustomer++;
         return customerEntity;
+    }
+
+    public FilmEntity createFilmEntity() {
+        if (countFilm > 60) {
+            countFilm = 10;
+        }
+
+        FilmEntity filmEntity = new FilmEntity();
+        filmEntity.setDescription(String.valueOf(relationCount));
+        filmEntity.setFilmId(relationCount);
+        filmEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countFilm + "-09-01 05:25:22"));
+        filmEntity.setLength((short) relationCount);
+        filmEntity.setRating(String.valueOf(relationCount));
+        filmEntity.setReleaseYear(relationCount);
+        filmEntity.setRentalDuration((short) relationCount);
+        filmEntity.setRentalRate(BigDecimal.valueOf(relationCount));
+        filmEntity.setReplacementCost(BigDecimal.valueOf(relationCount));
+        filmEntity.setTitle(String.valueOf(relationCount));
+        filmEntity.setVersiono(0L);
+        relationCount++;
+        LanguageEntity language = createLanguageEntity();
+        filmEntity.setLanguage(language);
+        if (!filmRepository.findAll().contains(filmEntity)) {
+            filmEntity = filmRepository.save(filmEntity);
+        }
+        countFilm++;
+        return filmEntity;
     }
 
     public StaffEntity createStaffEntity() {

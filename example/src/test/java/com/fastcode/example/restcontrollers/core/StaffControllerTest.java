@@ -155,11 +155,11 @@ public class StaffControllerTest {
 
     static int relationCount = 10;
 
-    int countAddress = 10;
-
     int countRental = 10;
 
     int countLanguage = 10;
+
+    int countAddress = 10;
 
     int countFilm = 10;
 
@@ -197,30 +197,6 @@ public class StaffControllerTest {
         em.getTransaction().commit();
     }
 
-    public AddressEntity createAddressEntity() {
-        if (countAddress > 60) {
-            countAddress = 10;
-        }
-
-        AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setAddress(String.valueOf(relationCount));
-        addressEntity.setAddress2(String.valueOf(relationCount));
-        addressEntity.setAddressId(relationCount);
-        addressEntity.setDistrict(String.valueOf(relationCount));
-        addressEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countAddress + "-09-01 05:25:22"));
-        addressEntity.setPhone(String.valueOf(relationCount));
-        addressEntity.setPostalCode(String.valueOf(relationCount));
-        addressEntity.setVersiono(0L);
-        relationCount++;
-        CityEntity city = createCityEntity();
-        addressEntity.setCity(city);
-        if (!addressRepository.findAll().contains(addressEntity)) {
-            addressEntity = addressRepository.save(addressEntity);
-        }
-        countAddress++;
-        return addressEntity;
-    }
-
     public RentalEntity createRentalEntity() {
         if (countRental > 60) {
             countRental = 10;
@@ -235,10 +211,10 @@ public class StaffControllerTest {
         relationCount++;
         InventoryEntity inventory = createInventoryEntity();
         rentalEntity.setInventory(inventory);
-        StaffEntity staff = createStaffEntity();
-        rentalEntity.setStaff(staff);
         CustomerEntity customer = createCustomerEntity();
         rentalEntity.setCustomer(customer);
+        StaffEntity staff = createStaffEntity();
+        rentalEntity.setStaff(staff);
         if (!rentalRepository.findAll().contains(rentalEntity)) {
             rentalEntity = rentalRepository.save(rentalEntity);
         }
@@ -262,6 +238,30 @@ public class StaffControllerTest {
         }
         countLanguage++;
         return languageEntity;
+    }
+
+    public AddressEntity createAddressEntity() {
+        if (countAddress > 60) {
+            countAddress = 10;
+        }
+
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setAddress(String.valueOf(relationCount));
+        addressEntity.setAddress2(String.valueOf(relationCount));
+        addressEntity.setAddressId(relationCount);
+        addressEntity.setDistrict(String.valueOf(relationCount));
+        addressEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countAddress + "-09-01 05:25:22"));
+        addressEntity.setPhone(String.valueOf(relationCount));
+        addressEntity.setPostalCode(String.valueOf(relationCount));
+        addressEntity.setVersiono(0L);
+        relationCount++;
+        CityEntity city = createCityEntity();
+        addressEntity.setCity(city);
+        if (!addressRepository.findAll().contains(addressEntity)) {
+            addressEntity = addressRepository.save(addressEntity);
+        }
+        countAddress++;
+        return addressEntity;
     }
 
     public FilmEntity createFilmEntity() {

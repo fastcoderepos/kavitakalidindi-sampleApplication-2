@@ -41,16 +41,6 @@ public interface IFilmCategoryMapper {
 
     @Mappings(
         {
-            @Mapping(source = "film.filmId", target = "filmId"),
-            @Mapping(source = "film.lastUpdate", target = "lastUpdate"),
-            @Mapping(source = "foundFilmCategory.categoryId", target = "filmCategoryCategoryId"),
-            @Mapping(source = "foundFilmCategory.filmId", target = "filmCategoryFilmId"),
-        }
-    )
-    GetFilmOutput filmEntityToGetFilmOutput(FilmEntity film, FilmCategoryEntity foundFilmCategory);
-
-    @Mappings(
-        {
             @Mapping(source = "category.categoryId", target = "categoryId"),
             @Mapping(source = "category.lastUpdate", target = "lastUpdate"),
             @Mapping(source = "foundFilmCategory.categoryId", target = "filmCategoryCategoryId"),
@@ -58,4 +48,14 @@ public interface IFilmCategoryMapper {
         }
     )
     GetCategoryOutput categoryEntityToGetCategoryOutput(CategoryEntity category, FilmCategoryEntity foundFilmCategory);
+
+    @Mappings(
+        {
+            @Mapping(source = "film.filmId", target = "filmId"),
+            @Mapping(source = "film.lastUpdate", target = "lastUpdate"),
+            @Mapping(source = "foundFilmCategory.categoryId", target = "filmCategoryCategoryId"),
+            @Mapping(source = "foundFilmCategory.filmId", target = "filmCategoryFilmId"),
+        }
+    )
+    GetFilmOutput filmEntityToGetFilmOutput(FilmEntity film, FilmCategoryEntity foundFilmCategory);
 }

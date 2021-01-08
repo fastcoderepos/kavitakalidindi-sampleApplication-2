@@ -47,19 +47,19 @@ public interface IStoreMapper {
 
     @Mappings(
         {
-            @Mapping(source = "staff.lastUpdate", target = "lastUpdate"),
-            @Mapping(source = "staff.storeId", target = "storeId"),
-            @Mapping(source = "foundStore.storeId", target = "storeStoreId"),
-        }
-    )
-    GetStaffOutput staffEntityToGetStaffOutput(StaffEntity staff, StoreEntity foundStore);
-
-    @Mappings(
-        {
             @Mapping(source = "address.address", target = "address"),
             @Mapping(source = "address.lastUpdate", target = "lastUpdate"),
             @Mapping(source = "foundStore.storeId", target = "storeStoreId"),
         }
     )
     GetAddressOutput addressEntityToGetAddressOutput(AddressEntity address, StoreEntity foundStore);
+
+    @Mappings(
+        {
+            @Mapping(source = "staff.lastUpdate", target = "lastUpdate"),
+            @Mapping(source = "staff.storeId", target = "storeId"),
+            @Mapping(source = "foundStore.storeId", target = "storeStoreId"),
+        }
+    )
+    GetStaffOutput staffEntityToGetStaffOutput(StaffEntity staff, StoreEntity foundStore);
 }

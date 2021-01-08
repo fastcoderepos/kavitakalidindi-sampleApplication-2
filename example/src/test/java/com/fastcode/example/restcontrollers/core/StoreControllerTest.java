@@ -225,10 +225,10 @@ public class StoreControllerTest {
         relationCount++;
         InventoryEntity inventory = createInventoryEntity();
         rentalEntity.setInventory(inventory);
-        StaffEntity staff = createStaffEntity();
-        rentalEntity.setStaff(staff);
         CustomerEntity customer = createCustomerEntity();
         rentalEntity.setCustomer(customer);
+        StaffEntity staff = createStaffEntity();
+        rentalEntity.setStaff(staff);
         if (!rentalRepository.findAll().contains(rentalEntity)) {
             rentalEntity = rentalRepository.save(rentalEntity);
         }

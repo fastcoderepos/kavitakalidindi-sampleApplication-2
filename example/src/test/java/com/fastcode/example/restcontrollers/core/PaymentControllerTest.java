@@ -91,12 +91,12 @@ public class PaymentControllerTest {
     protected IStaffRepository staffRepository;
 
     @Autowired
-    @Qualifier("languageRepository")
-    protected ILanguageRepository languageRepository;
-
-    @Autowired
     @Qualifier("addressRepository")
     protected IAddressRepository addressRepository;
+
+    @Autowired
+    @Qualifier("languageRepository")
+    protected ILanguageRepository languageRepository;
 
     @Autowired
     @Qualifier("filmRepository")
@@ -150,15 +150,15 @@ public class PaymentControllerTest {
 
     static int relationCount = 10;
 
+    int countAddress = 10;
+
     int countRental = 10;
 
     int countLanguage = 10;
 
-    int countAddress = 10;
+    int countCustomer = 10;
 
     int countFilm = 10;
-
-    int countCustomer = 10;
 
     int countStaff = 10;
 
@@ -182,14 +182,38 @@ public class PaymentControllerTest {
         em.createNativeQuery("truncate table CUSTOMER").executeUpdate();
         em.createNativeQuery("truncate table RENTAL").executeUpdate();
         em.createNativeQuery("truncate table STAFF").executeUpdate();
-        em.createNativeQuery("truncate table LANGUAGE").executeUpdate();
         em.createNativeQuery("truncate table ADDRESS").executeUpdate();
+        em.createNativeQuery("truncate table LANGUAGE").executeUpdate();
         em.createNativeQuery("truncate table FILM").executeUpdate();
         em.createNativeQuery("truncate table COUNTRY").executeUpdate();
         em.createNativeQuery("truncate table CITY").executeUpdate();
         em.createNativeQuery("truncate table INVENTORY").executeUpdate();
         em.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
         em.getTransaction().commit();
+    }
+
+    public AddressEntity createAddressEntity() {
+        if (countAddress > 60) {
+            countAddress = 10;
+        }
+
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setAddress(String.valueOf(relationCount));
+        addressEntity.setAddress2(String.valueOf(relationCount));
+        addressEntity.setAddressId(relationCount);
+        addressEntity.setDistrict(String.valueOf(relationCount));
+        addressEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countAddress + "-09-01 05:25:22"));
+        addressEntity.setPhone(String.valueOf(relationCount));
+        addressEntity.setPostalCode(String.valueOf(relationCount));
+        addressEntity.setVersiono(0L);
+        relationCount++;
+        CityEntity city = createCityEntity();
+        addressEntity.setCity(city);
+        if (!addressRepository.findAll().contains(addressEntity)) {
+            addressEntity = addressRepository.save(addressEntity);
+        }
+        countAddress++;
+        return addressEntity;
     }
 
     public RentalEntity createRentalEntity() {
@@ -206,10 +230,10 @@ public class PaymentControllerTest {
         relationCount++;
         InventoryEntity inventory = createInventoryEntity();
         rentalEntity.setInventory(inventory);
-        StaffEntity staff = createStaffEntity();
-        rentalEntity.setStaff(staff);
         CustomerEntity customer = createCustomerEntity();
         rentalEntity.setCustomer(customer);
+        StaffEntity staff = createStaffEntity();
+        rentalEntity.setStaff(staff);
         if (!rentalRepository.findAll().contains(rentalEntity)) {
             rentalEntity = rentalRepository.save(rentalEntity);
         }
@@ -235,28 +259,30 @@ public class PaymentControllerTest {
         return languageEntity;
     }
 
-    public AddressEntity createAddressEntity() {
-        if (countAddress > 60) {
-            countAddress = 10;
+    public CustomerEntity createCustomerEntity() {
+        if (countCustomer > 60) {
+            countCustomer = 10;
         }
 
-        AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setAddress(String.valueOf(relationCount));
-        addressEntity.setAddress2(String.valueOf(relationCount));
-        addressEntity.setAddressId(relationCount);
-        addressEntity.setDistrict(String.valueOf(relationCount));
-        addressEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countAddress + "-09-01 05:25:22"));
-        addressEntity.setPhone(String.valueOf(relationCount));
-        addressEntity.setPostalCode(String.valueOf(relationCount));
-        addressEntity.setVersiono(0L);
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setActive(relationCount);
+        customerEntity.setActivebool(false);
+        customerEntity.setCreateDate(SearchUtils.stringToLocalDate("19" + countCustomer + "-09-01"));
+        customerEntity.setCustomerId(relationCount);
+        customerEntity.setEmail(String.valueOf(relationCount));
+        customerEntity.setFirstName(String.valueOf(relationCount));
+        customerEntity.setLastName(String.valueOf(relationCount));
+        customerEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countCustomer + "-09-01 05:25:22"));
+        customerEntity.setStoreId((short) relationCount);
+        customerEntity.setVersiono(0L);
         relationCount++;
-        CityEntity city = createCityEntity();
-        addressEntity.setCity(city);
-        if (!addressRepository.findAll().contains(addressEntity)) {
-            addressEntity = addressRepository.save(addressEntity);
+        AddressEntity address = createAddressEntity();
+        customerEntity.setAddress(address);
+        if (!customerRepository.findAll().contains(customerEntity)) {
+            customerEntity = customerRepository.save(customerEntity);
         }
-        countAddress++;
-        return addressEntity;
+        countCustomer++;
+        return customerEntity;
     }
 
     public FilmEntity createFilmEntity() {
@@ -284,32 +310,6 @@ public class PaymentControllerTest {
         }
         countFilm++;
         return filmEntity;
-    }
-
-    public CustomerEntity createCustomerEntity() {
-        if (countCustomer > 60) {
-            countCustomer = 10;
-        }
-
-        CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setActive(relationCount);
-        customerEntity.setActivebool(false);
-        customerEntity.setCreateDate(SearchUtils.stringToLocalDate("19" + countCustomer + "-09-01"));
-        customerEntity.setCustomerId(relationCount);
-        customerEntity.setEmail(String.valueOf(relationCount));
-        customerEntity.setFirstName(String.valueOf(relationCount));
-        customerEntity.setLastName(String.valueOf(relationCount));
-        customerEntity.setLastUpdate(SearchUtils.stringToLocalDateTime("19" + countCustomer + "-09-01 05:25:22"));
-        customerEntity.setStoreId((short) relationCount);
-        customerEntity.setVersiono(0L);
-        relationCount++;
-        AddressEntity address = createAddressEntity();
-        customerEntity.setAddress(address);
-        if (!customerRepository.findAll().contains(customerEntity)) {
-            customerEntity = customerRepository.save(customerEntity);
-        }
-        countCustomer++;
-        return customerEntity;
     }
 
     public StaffEntity createStaffEntity() {

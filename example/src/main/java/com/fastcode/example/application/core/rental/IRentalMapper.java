@@ -62,17 +62,17 @@ public interface IRentalMapper {
 
     @Mappings(
         {
-            @Mapping(source = "staff.lastUpdate", target = "lastUpdate"),
-            @Mapping(source = "foundRental.rentalId", target = "rentalRentalId"),
-        }
-    )
-    GetStaffOutput staffEntityToGetStaffOutput(StaffEntity staff, RentalEntity foundRental);
-
-    @Mappings(
-        {
             @Mapping(source = "customer.lastUpdate", target = "lastUpdate"),
             @Mapping(source = "foundRental.rentalId", target = "rentalRentalId"),
         }
     )
     GetCustomerOutput customerEntityToGetCustomerOutput(CustomerEntity customer, RentalEntity foundRental);
+
+    @Mappings(
+        {
+            @Mapping(source = "staff.lastUpdate", target = "lastUpdate"),
+            @Mapping(source = "foundRental.rentalId", target = "rentalRentalId"),
+        }
+    )
+    GetStaffOutput staffEntityToGetStaffOutput(StaffEntity staff, RentalEntity foundRental);
 }
